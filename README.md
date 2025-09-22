@@ -21,3 +21,9 @@ Encapsulates the functionality for working with a collection field (`TArray`) wi
 - A public delegate `OnCollectionChanged` is added for external tracking of changes to the private collection (via `SetCollection`).
 - Additional public methods for working with collection elements.
 - A public delegate `OnElementReplaced` is added for external tracking of changes to the value of a collection element via methods (e.g., `TrySetValueByIndex`).
+
+### **Install**
+**Steps:** 
+1. Open page Release: https://github.com/Frozenheart32/ReactiveLibrary/releases
+2. Download ReactiveLibrary-x.x.x.zip
+3. Unpack archive to ~/YourProject/Plugins.
