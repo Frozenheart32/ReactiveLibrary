@@ -1,0 +1,32 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ReactiveLibrary",
+	"Description": "A library of reactive properties and collections for commonly used standard UE5 data types.",
+	"Category": "Reactive",
+	"CreatedBy": "Alexsander Khrapin",
+	"CreatedByURL": "https://github.com/Frozenheart32",
+	"DocsURL": "https://github.com/Frozenheart32/ReactiveLibrary/blob/main/README.md",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"EngineVersion": "5.3+",
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "ReactiveLibrary",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"IOS",
+				"Android",
+				"Linux"
+			]
+		}
+	]
+}
