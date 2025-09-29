@@ -5,11 +5,6 @@
 
 #include "Properties/ReactivePropertyName.h"
 
-UReactivePropertyName::UReactivePropertyName()
-{
-	Value = NAME_None;
-}
-
 const FName& UReactivePropertyName::GetValue() const
 {
 	return Value;

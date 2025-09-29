@@ -21,15 +21,13 @@ class REACTIVELIBRARY_API UReactivePropertyText : public UObject
 
 public:
 
-	UReactivePropertyText();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeTextValue OnValueChanged;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	FText Value;
+	FText Value = {};
 
 public:
 

@@ -6,11 +6,6 @@
 
 #include "Properties/ReactivePropertyBool.h"
 
-UReactivePropertyBool::UReactivePropertyBool()
-{
-	Value = false;
-}
-
 bool UReactivePropertyBool::GetValue() const
 {
 	return Value;

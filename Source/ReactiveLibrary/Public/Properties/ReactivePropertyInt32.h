@@ -22,15 +22,13 @@ class REACTIVELIBRARY_API UReactivePropertyInt32 : public UObject
 
 public:
 
-	UReactivePropertyInt32();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeInt32Value OnValueChanged;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 Value;
+	int32 Value = 0;
 
 public:
 

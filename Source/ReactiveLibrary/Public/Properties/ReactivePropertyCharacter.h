@@ -23,16 +23,14 @@ class REACTIVELIBRARY_API UReactivePropertyCharacter : public UObject
 	GENERATED_BODY()
 
 public:
-	
-	UReactivePropertyCharacter();
 
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeCharacterValue OnValueChanged;
 	
 private:
 
-	UPROPERTY()
-	ACharacter* Value;
+	UPROPERTY(EditDefaultsOnly)
+	ACharacter* Value = nullptr;
 
 public:
 
@@ -53,8 +51,6 @@ class REACTIVELIBRARY_API UWeakReactivePropertyCharacter : public UObject
 	GENERATED_BODY()
 
 public:
-	
-	UWeakReactivePropertyCharacter();
 
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeCharacterValue OnValueChanged;
@@ -62,7 +58,7 @@ public:
 private:
 
 	UPROPERTY()
-	TWeakObjectPtr<ACharacter> Value;
+	TWeakObjectPtr<ACharacter> Value = nullptr;
 
 public:
 

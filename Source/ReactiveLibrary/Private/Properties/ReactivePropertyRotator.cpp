@@ -5,11 +5,6 @@
 
 #include "Properties/ReactivePropertyRotator.h"
 
-UReactivePropertyRotator::UReactivePropertyRotator()
-{
-	Value = FRotator{};
-}
-
 const FRotator& UReactivePropertyRotator::GetValue() const
 {
 	return Value;

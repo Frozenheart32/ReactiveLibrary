@@ -21,15 +21,13 @@ class REACTIVELIBRARY_API UReactivePropertyBool : public UObject
 
 public:
 
-	UReactivePropertyBool();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeBoolValue OnValueChanged;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	bool Value;
+	bool Value = false;
 
 public:
 

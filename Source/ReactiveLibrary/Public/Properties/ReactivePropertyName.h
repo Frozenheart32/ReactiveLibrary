@@ -21,15 +21,13 @@ class REACTIVELIBRARY_API UReactivePropertyName : public UObject
 
 public:
 
-	UReactivePropertyName();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeNameValue OnValueChanged;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	FName Value;
+	FName Value = NAME_None;
 
 public:
 

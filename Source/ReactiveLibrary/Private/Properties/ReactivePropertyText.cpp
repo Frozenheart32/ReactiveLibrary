@@ -6,10 +6,6 @@
 
 #include "Properties/ReactivePropertyText.h"
 
-UReactivePropertyText::UReactivePropertyText()
-{
-	Value = FText{};
-}
 
 const FText& UReactivePropertyText::GetValue() const
 {

@@ -21,15 +21,13 @@ class REACTIVELIBRARY_API UReactivePropertyFloat : public UObject
 
 public:
 
-	UReactivePropertyFloat();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeFloatValue OnValueChanged;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	float Value;
+	float Value = 0.f;
 
 public:
 

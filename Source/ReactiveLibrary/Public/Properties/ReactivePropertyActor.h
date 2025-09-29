@@ -24,15 +24,13 @@ class REACTIVELIBRARY_API UReactivePropertyActor : public UObject
 
 public:
 
-	UReactivePropertyActor();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeActorValue OnValueChanged;
 	
 private:
 
-	UPROPERTY()
-	AActor* Value;
+	UPROPERTY(EditDefaultsOnly)
+	AActor* Value = nullptr;
 
 public:
 
@@ -54,15 +52,13 @@ class REACTIVELIBRARY_API UWeakReactivePropertyActor : public UObject
 
 public:
 
-	UWeakReactivePropertyActor();
-
 	UPROPERTY(BlueprintAssignable, Category = "Weak Reactive Property")
 	FOnChangeActorValue OnValueChanged;
 	
 private:
 
 	UPROPERTY()
-	TWeakObjectPtr<AActor> Value;
+	TWeakObjectPtr<AActor> Value = nullptr;
 
 public:
 

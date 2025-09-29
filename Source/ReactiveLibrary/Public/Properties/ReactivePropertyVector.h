@@ -19,16 +19,14 @@ class REACTIVELIBRARY_API UReactivePropertyVector : public UObject
 	GENERATED_BODY()
 
 public:
-
-	UReactivePropertyVector();
-
+	
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeVectorValue OnValueChanged;
 
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	FVector Value;
+	FVector Value = {};
 
 public:
 

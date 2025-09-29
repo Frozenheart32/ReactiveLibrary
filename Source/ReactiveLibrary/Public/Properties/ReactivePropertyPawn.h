@@ -22,16 +22,14 @@ class REACTIVELIBRARY_API UReactivePropertyPawn : public UObject
 	GENERATED_BODY()
 
 public:
-	
-	UReactivePropertyPawn();
 
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangePawnValue OnValueChanged;
 	
 private:
 
-	UPROPERTY()
-	APawn* Value;
+	UPROPERTY(EditDefaultsOnly)
+	APawn* Value = nullptr;
 
 public:
 
@@ -52,8 +50,6 @@ class REACTIVELIBRARY_API UWeakReactivePropertyPawn : public UObject
 	GENERATED_BODY()
 
 public:
-	
-	UWeakReactivePropertyPawn();
 
 	UPROPERTY(BlueprintAssignable, Category = "Weak Reactive Property")
 	FOnChangePawnValue OnValueChanged;
@@ -61,7 +57,7 @@ public:
 private:
 
 	UPROPERTY()
-	TWeakObjectPtr<APawn> Value;
+	TWeakObjectPtr<APawn> Value = nullptr;
 
 public:
 

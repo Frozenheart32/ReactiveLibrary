@@ -6,11 +6,6 @@
 
 #include "Properties/ReactivePropertyActor.h"
 
-UReactivePropertyActor::UReactivePropertyActor()
-{
-	Value = nullptr;
-}
-
 AActor* UReactivePropertyActor::GetValue() const
 {
 	return Value;
@@ -34,11 +29,6 @@ bool UReactivePropertyActor::SetValue(AActor* NewValue)
 //--------------------------------------------------------------------------------------------
 
 //Weak Reactive Property Actor Class
-
-UWeakReactivePropertyActor::UWeakReactivePropertyActor()
-{
-	Value = nullptr;
-}
 
 AActor* UWeakReactivePropertyActor::GetValue() const
 {

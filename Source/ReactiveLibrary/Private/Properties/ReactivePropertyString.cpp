@@ -6,10 +6,6 @@
 
 #include "Properties/ReactivePropertyString.h"
 
-UReactivePropertyString::UReactivePropertyString()
-{
-	Value = FString{};
-}
 
 const FString& UReactivePropertyString::GetValue() const
 {

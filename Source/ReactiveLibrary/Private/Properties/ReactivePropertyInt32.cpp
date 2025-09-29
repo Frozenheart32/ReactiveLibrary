@@ -5,11 +5,6 @@
 
 #include "Properties/ReactivePropertyInt32.h"
 
-UReactivePropertyInt32::UReactivePropertyInt32()
-{
-	Value = 0;
-}
-
 int32 UReactivePropertyInt32::GetValue() const
 {
 	return Value;

@@ -22,15 +22,13 @@ class REACTIVELIBRARY_API UReactivePropertyRotator : public UObject
 
 public:
 
-	UReactivePropertyRotator();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeRotatorValue OnValueChanged;
 
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	FRotator Value;
+	FRotator Value = {};
 
 public:
 

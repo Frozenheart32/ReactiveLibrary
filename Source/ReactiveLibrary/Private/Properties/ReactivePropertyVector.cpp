@@ -6,10 +6,6 @@
 
 #include "Properties/ReactivePropertyVector.h"
 
-UReactivePropertyVector::UReactivePropertyVector()
-{
-	Value = FVector{};
-}
 
 const FVector& UReactivePropertyVector::GetValue() const
 {

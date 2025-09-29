@@ -6,11 +6,6 @@
 
 #include "Properties/ReactivePropertyVector2D.h"
 
-UReactivePropertyVector2D::UReactivePropertyVector2D()
-{
-	Value = FVector2D{};
-}
-
 const FVector2D& UReactivePropertyVector2D::GetValue() const
 {
 	return Value;

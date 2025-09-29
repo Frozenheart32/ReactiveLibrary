@@ -6,10 +6,6 @@
 
 #include "Properties/ReactivePropertyPawn.h"
 
-UReactivePropertyPawn::UReactivePropertyPawn()
-{
-	Value =  nullptr;
-}
 
 APawn* UReactivePropertyPawn::GetValue() const
 {
@@ -34,11 +30,6 @@ bool UReactivePropertyPawn::SetValue(APawn* NewValue)
 
 //---------------------------------------------------------------------------------------
 //Weak Reactive Property Pawn Class
-
-UWeakReactivePropertyPawn::UWeakReactivePropertyPawn()
-{
-	Value = nullptr;
-}
 
 APawn* UWeakReactivePropertyPawn::GetValue() const
 {

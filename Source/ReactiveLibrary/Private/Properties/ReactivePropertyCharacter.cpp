@@ -8,11 +8,6 @@
 
 #include "GameFramework/Character.h"
 
-UReactivePropertyCharacter::UReactivePropertyCharacter()
-{
-	Value = nullptr;
-}
-
 ACharacter* UReactivePropertyCharacter::GetValue() const
 {
 	return Value;
@@ -36,11 +31,6 @@ bool UReactivePropertyCharacter::SetValue(ACharacter* NewValue)
 
 //---------------------------------------------------------------------------------------------------
 //Weak Reactive Property Character Class
-
-UWeakReactivePropertyCharacter::UWeakReactivePropertyCharacter()
-{
-	Value = nullptr;
-}
 
 ACharacter* UWeakReactivePropertyCharacter::GetValue() const
 {

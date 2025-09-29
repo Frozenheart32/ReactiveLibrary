@@ -8,11 +8,6 @@
 
 #include "Kismet/KismetMathLibrary.h"
 
-UReactivePropertyFloat::UReactivePropertyFloat()
-{
-	Value = 0.f;
-}
-
 float UReactivePropertyFloat::GetValue() const
 {
 	return Value;

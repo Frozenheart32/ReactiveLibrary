@@ -22,15 +22,13 @@ class REACTIVELIBRARY_API UReactivePropertyVector2D : public UObject
 
 public:
 
-	UReactivePropertyVector2D();
-
 	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
 	FOnChangeVector2DValue OnValueChanged;
 
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	FVector2D Value;
+	FVector2D Value = {};
 
 public:
 
