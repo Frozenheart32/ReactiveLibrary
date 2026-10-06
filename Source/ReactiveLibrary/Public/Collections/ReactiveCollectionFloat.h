@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,7 +10,10 @@
 #include "ReactiveCollectionFloat.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeFloatCollection, const TArray<float>&, ChangedCollection);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnReplaceFloatElement, int32, ElementIndex, float, OldElementValue, float, NewElementValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnReplaceFloatElement, int32, ElementIndex, float, NewElementValue);
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeFloatCollectionCppDelegate, const TArray<float>&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnReplaceFloatElementCppDelegate, int32, float);
 
 /**
  * 
@@ -22,28 +25,33 @@ class REACTIVELIBRARY_API UReactiveCollectionFloat : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Collection")
-	FOnChangeFloatCollection OnCollectionChanged;
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Collection")
-	FOnReplaceFloatElement OnElementReplaced;
+	FOnChangeFloatCollectionCppDelegate OnCollectionChanged;
+	FOnReplaceFloatElementCppDelegate OnElementReplaced;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Collection", DisplayName = "OnCollectionChanged")
+	FOnChangeFloatCollection OnCollectionChangedEvent;
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Collection", DisplayName = "OnElementReplaced")
+	FOnReplaceFloatElement OnElementReplacedEvent;
 	
 private:
 
 	UPROPERTY()
 	TArray<float> Collection;
 
-	bool CheckOutOfRange(int32 Index) const;
+	[[nodiscard]] bool CheckOutOfRange(int32 Index) const;
 
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
-	const TArray<float>& GetCollection() const;
+	[[nodiscard]] const TArray<float>& GetCollection() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
 	void SetCollection(TArray<float> NewCollection);
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
-	float GetElementByIndex(int32 Index) const;
+	[[nodiscard]] float GetElementByIndex(int32 Index) const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
 	void PushBack(float NewElement);
@@ -55,7 +63,7 @@ public:
 	bool TrySetValueByIndex(int32 Index, float NewElement);
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
-	int32 Num() const;
+	[[nodiscard]] int32 Num() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Collection")
 	void ClearCollection();

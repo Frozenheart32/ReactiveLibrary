@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,6 +10,7 @@
 #include "ReactivePropertyText.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeTextValue, const FText&, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeTextValueCppDelegate, const FText&);
 
 /**
  * 
@@ -21,8 +22,12 @@ class REACTIVELIBRARY_API UReactivePropertyText : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeTextValue OnValueChanged;
+	FOnChangeTextValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeTextValue OnValueChangedEvent;
 	
 private:
 
@@ -32,11 +37,11 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	const FText& GetValue() const;
+	[[nodiscard]] const FText& GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(const FText& NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool IsEmpty() const;
+	[[nodiscard]] bool IsEmpty() const;
 };

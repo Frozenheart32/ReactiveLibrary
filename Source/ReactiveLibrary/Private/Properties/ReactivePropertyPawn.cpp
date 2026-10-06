@@ -1,10 +1,11 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
 
 #include "Properties/ReactivePropertyPawn.h"
+#include "GameFramework/Pawn.h"
 
 
 APawn* UReactivePropertyPawn::GetValue() const
@@ -12,19 +13,22 @@ APawn* UReactivePropertyPawn::GetValue() const
 	return Value;
 }
 
-bool UReactivePropertyPawn::SetValue(APawn* NewValue)
+void UReactivePropertyPawn::SetValue(APawn* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(IsValid(Value))
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value);
-	return true;
+
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value);
+
+	OnValueChangedEvent.Broadcast(Value);
 }
 
 
@@ -36,19 +40,22 @@ APawn* UWeakReactivePropertyPawn::GetValue() const
 	return Value.IsValid() ? Value.Get() : nullptr;
 }
 
-bool UWeakReactivePropertyPawn::SetValue(APawn* NewValue)
+void UWeakReactivePropertyPawn::SetValue(APawn* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(Value.IsValid())
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value.Get());
-	return true;
+
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value.Get());
+
+	OnValueChangedEvent.Broadcast(Value.Get());
 }
 
 bool UWeakReactivePropertyPawn::IsValidPtr() const

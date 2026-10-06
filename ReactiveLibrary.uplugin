@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0",
+	"VersionName": "1.1",
 	"FriendlyName": "ReactiveLibrary",
 	"Description": "A library of reactive properties and collections for commonly used standard UE5 data types.",
 	"Category": "Reactive",
@@ -13,7 +13,6 @@
 	"CanContainContent": false,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
-	"EngineVersion": "5.3+",
 	"Installed": true,
 	"Modules": [
 		{

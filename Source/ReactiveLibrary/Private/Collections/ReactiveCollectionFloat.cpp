@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -19,7 +19,11 @@ const TArray<float>& UReactiveCollectionFloat::GetCollection() const
 void UReactiveCollectionFloat::SetCollection(TArray<float> NewCollection)
 {
 	Collection = MoveTemp(NewCollection);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 float UReactiveCollectionFloat::GetElementByIndex(int32 Index) const
@@ -31,7 +35,11 @@ float UReactiveCollectionFloat::GetElementByIndex(int32 Index) const
 void UReactiveCollectionFloat::PushBack(float NewElement)
 {
 	Collection.Push(NewElement);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 bool UReactiveCollectionFloat::TryRemoveElementByIndex(int32 Index)
@@ -40,7 +48,11 @@ bool UReactiveCollectionFloat::TryRemoveElementByIndex(int32 Index)
 
 	const auto& Element = Collection[Index];
 	Collection.Remove(Element);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 	return true;
 }
 
@@ -48,10 +60,14 @@ bool UReactiveCollectionFloat::TrySetValueByIndex(int32 Index, float NewElement)
 {
 	if(CheckOutOfRange(Index)) return false;
 
-	const auto OldValue = Collection[Index];
-	Collection[Index] = NewElement;
+	if(Collection[Index] == NewElement) return false;
 	
-	OnElementReplaced.Broadcast(Index, OldValue, NewElement);
+	Collection[Index] = NewElement;
+
+	if(OnElementReplaced.IsBound())
+		OnElementReplaced.Broadcast(Index, NewElement);
+
+	OnElementReplacedEvent.Broadcast(Index, NewElement);
 	return true;
 }
 
@@ -65,5 +81,9 @@ void UReactiveCollectionFloat::ClearCollection()
 	if(Collection.IsEmpty()) return;
 
 	Collection.Empty();
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
