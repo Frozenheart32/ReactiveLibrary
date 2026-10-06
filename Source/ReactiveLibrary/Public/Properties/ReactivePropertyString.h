@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -11,6 +11,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeStringValue, const FString&, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeStringValueCppDelegate, const FString&);
 
 /**
  * 
@@ -22,8 +23,12 @@ class REACTIVELIBRARY_API UReactivePropertyString : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeStringValue OnValueChanged;
+	FOnChangeStringValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeStringValue OnValueChangedEvent;
 	
 private:
 
@@ -33,14 +38,14 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	const FString& GetValue() const;
+	[[nodiscard]] const FString& GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(const FString& NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	int32 Length() const;
+	[[nodiscard]] int32 Length() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool IsEmpty() const;
+	[[nodiscard]] bool IsEmpty() const;
 };

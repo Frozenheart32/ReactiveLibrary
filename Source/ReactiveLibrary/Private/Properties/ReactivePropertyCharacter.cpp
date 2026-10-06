@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -13,19 +13,21 @@ ACharacter* UReactivePropertyCharacter::GetValue() const
 	return Value;
 }
 
-bool UReactivePropertyCharacter::SetValue(ACharacter* NewValue)
+void UReactivePropertyCharacter::SetValue(ACharacter* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(IsValid(Value))
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value);
-	return true;
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value);
+
+	OnValueChangedEvent.Broadcast(Value);
 }
 
 
@@ -37,19 +39,21 @@ ACharacter* UWeakReactivePropertyCharacter::GetValue() const
 	return Value.IsValid() ? Value.Get() : nullptr;
 }
 
-bool UWeakReactivePropertyCharacter::SetValue(ACharacter* NewValue)
+void UWeakReactivePropertyCharacter::SetValue(ACharacter* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(Value.IsValid())
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value.Get());
-	return true;
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value.Get());
+
+	OnValueChangedEvent.Broadcast(Value.Get());
 }
 
 bool UWeakReactivePropertyCharacter::IsValidPtr() const

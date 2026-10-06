@@ -1,5 +1,5 @@
 ﻿/*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,6 +10,7 @@
 #include "ReactivePropertyInt64.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeInt64Value, int64, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeInt64ValueCppDelegate, int64);
 
 /**
  * 
@@ -21,8 +22,12 @@ class REACTIVELIBRARY_API UReactivePropertyInt64 : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeInt64Value OnValueChanged;
+	FOnChangeInt64ValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeInt64Value OnValueChangedEvent;
 	
 private:
 
@@ -32,7 +37,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	int64 GetValue() const;
+	[[nodiscard]] int64 GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(int64 NewValue);

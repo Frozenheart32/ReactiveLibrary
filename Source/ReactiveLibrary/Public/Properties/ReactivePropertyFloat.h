@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,6 +10,7 @@
 #include "ReactivePropertyFloat.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeFloatValue, float, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeFloatValueCppDelegate, float);
 
 /**
  * 
@@ -21,8 +22,12 @@ class REACTIVELIBRARY_API UReactivePropertyFloat : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeFloatValue OnValueChanged;
+	FOnChangeFloatValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeFloatValue OnValueChangedEvent;
 	
 private:
 
@@ -32,7 +37,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	float GetValue() const;
+	[[nodiscard]] float GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(float NewValue);

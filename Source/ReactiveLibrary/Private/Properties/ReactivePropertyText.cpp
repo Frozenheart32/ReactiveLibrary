@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -17,7 +17,11 @@ void UReactivePropertyText::SetValue(const FText& NewValue)
 	if(Value.EqualTo(NewValue)) return;
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value);
+
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value);
+
+	OnValueChangedEvent.Broadcast(Value);
 }
 
 bool UReactivePropertyText::IsEmpty() const

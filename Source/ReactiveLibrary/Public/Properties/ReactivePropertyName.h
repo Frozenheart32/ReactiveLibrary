@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,6 +10,7 @@
 #include "ReactivePropertyName.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeNameValue, const FName&, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeNameValueCppDelegate, const FName&);
 
 /**
  * 
@@ -21,8 +22,12 @@ class REACTIVELIBRARY_API UReactivePropertyName : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeNameValue OnValueChanged;
+	FOnChangeNameValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeNameValue OnValueChangedEvent;
 	
 private:
 
@@ -32,11 +37,11 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	const FName& GetValue() const;
+	[[nodiscard]] const FName& GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(const FName& NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool IsNone() const;
+	[[nodiscard]] bool IsNone() const;
 };

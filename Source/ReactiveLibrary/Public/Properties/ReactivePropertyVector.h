@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -10,6 +10,8 @@
 #include "ReactivePropertyVector.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeVectorValue, const FVector&, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeVectorValueCppDelegate, const FVector&);
+
 /**
  * 
  */
@@ -19,9 +21,13 @@ class REACTIVELIBRARY_API UReactivePropertyVector : public UObject
 	GENERATED_BODY()
 
 public:
+
+	FOnChangeVectorValueCppDelegate OnValueChanged;
+
+protected:
 	
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeVectorValue OnValueChanged;
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeVectorValue OnValueChangedEvent;
 
 private:
 
@@ -31,7 +37,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	const FVector& GetValue() const;
+	[[nodiscard]] const FVector& GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(const FVector& NewValue);

@@ -1,10 +1,11 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
 
 #include "Collections/ReactiveCollectionActor.h"
+#include "GameFramework/Actor.h"
 
 bool UReactiveCollectionActor::CheckOutOfRange(int32 Index) const
 {
@@ -19,7 +20,11 @@ const TArray<AActor*>& UReactiveCollectionActor::GetCollection() const
 void UReactiveCollectionActor::SetCollection(TArray<AActor*> NewCollection)
 {
 	Collection = MoveTemp(NewCollection);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 AActor* UReactiveCollectionActor::GetElementByIndex(int32 Index) const
@@ -31,7 +36,11 @@ AActor* UReactiveCollectionActor::GetElementByIndex(int32 Index) const
 void UReactiveCollectionActor::PushBack(AActor* NewElement)
 {
 	Collection.Push(NewElement);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 bool UReactiveCollectionActor::TryRemoveElementByIndex(int32 Index)
@@ -40,8 +49,11 @@ bool UReactiveCollectionActor::TryRemoveElementByIndex(int32 Index)
 
 	AActor* Element = Collection[Index];
 	Collection.Remove(Element);
-	
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 	return true;
 }
 
@@ -49,10 +61,15 @@ bool UReactiveCollectionActor::TrySetValueByIndex(int32 Index, AActor* NewElemen
 {
 	if(CheckOutOfRange(Index)) return false;
 
-	const auto OldValue = Collection[Index];
-	Collection[Index] = NewElement;
+	if(Collection[Index] == NewElement) return false;
 	
-	OnElementReplaced.Broadcast(Index, OldValue, NewElement);
+	Collection[Index] = NewElement;
+
+	if(OnElementReplaced.IsBound())
+		OnElementReplaced.Broadcast(Index, NewElement);
+
+	OnElementReplacedEvent.Broadcast(Index, NewElement);
+	
 	return true;
 }
 
@@ -66,5 +83,9 @@ void UReactiveCollectionActor::ClearCollection()
 	if(Collection.IsEmpty()) return;
 
 	Collection.Empty();
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }

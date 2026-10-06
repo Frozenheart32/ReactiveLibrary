@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -11,6 +11,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeRotatorValue, const FRotator&, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRotatorValueCppDelegate, const FRotator&);
 
 /**
  * 
@@ -22,8 +23,12 @@ class REACTIVELIBRARY_API UReactivePropertyRotator : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeRotatorValue OnValueChanged;
+	FOnChangeRotatorValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeRotatorValue OnValueChangedEvent;
 
 private:
 
@@ -33,7 +38,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	const FRotator& GetValue() const;
+	[[nodiscard]] const FRotator& GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(const FRotator& NewValue);

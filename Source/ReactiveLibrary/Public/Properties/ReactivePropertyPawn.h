@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -9,10 +9,12 @@
 #include "UObject/Object.h"
 #include "ReactivePropertyPawn.generated.h"
 
-
 class APawn;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangePawnValue, APawn*, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangePawnValueCppDelegate, APawn*);
+
+
 /**
  * 
  */
@@ -23,8 +25,12 @@ class REACTIVELIBRARY_API UReactivePropertyPawn : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangePawnValue OnValueChanged;
+	FOnChangePawnValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangePawnValue OnValueChangedEvent;
 	
 private:
 
@@ -34,10 +40,10 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	APawn* GetValue() const;
+	[[nodiscard]] APawn* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool SetValue(APawn* NewValue);
+	void SetValue(APawn* NewValue);
 };
 
 
@@ -51,8 +57,12 @@ class REACTIVELIBRARY_API UWeakReactivePropertyPawn : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Weak Reactive Property")
-	FOnChangePawnValue OnValueChanged;
+	FOnChangePawnValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangePawnValue OnValueChangedEvent;
 	
 private:
 
@@ -62,11 +72,11 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	APawn* GetValue() const;
+	[[nodiscard]] APawn* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool SetValue(APawn* NewValue);
+	void SetValue(APawn* NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool IsValidPtr() const;
+	[[nodiscard]] bool IsValidPtr() const;
 };

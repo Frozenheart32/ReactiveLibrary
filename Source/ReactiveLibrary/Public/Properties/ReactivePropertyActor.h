@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -9,10 +9,10 @@
 #include "UObject/Object.h"
 #include "ReactivePropertyActor.generated.h"
 
-
 class AActor;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeActorValue, AActor*, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeActorValueCppDelegate, AActor*);
 
 /**
  * 
@@ -23,9 +23,13 @@ class REACTIVELIBRARY_API UReactivePropertyActor : public UObject
 	GENERATED_BODY()
 
 public:
+	
+	FOnChangeActorValueCppDelegate OnValueChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeActorValue OnValueChanged;
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeActorValue OnValueChangedEvent;
 	
 private:
 
@@ -35,10 +39,10 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	AActor* GetValue() const;
+	[[nodiscard]] AActor* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool SetValue(AActor* NewValue);
+	void SetValue(AActor* NewValue);
 };
 
 
@@ -52,8 +56,12 @@ class REACTIVELIBRARY_API UWeakReactivePropertyActor : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Weak Reactive Property")
-	FOnChangeActorValue OnValueChanged;
+	FOnChangeActorValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeActorValue OnValueChangedEvent;
 	
 private:
 
@@ -63,11 +71,11 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	AActor* GetValue() const;
+	[[nodiscard]] AActor* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool SetValue(AActor* NewValue);
+	void SetValue(AActor* NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool IsValidPtr() const;
+	[[nodiscard]] bool IsValidPtr() const;
 };

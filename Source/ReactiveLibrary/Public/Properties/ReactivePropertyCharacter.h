@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -9,10 +9,10 @@
 #include "UObject/Object.h"
 #include "ReactivePropertyCharacter.generated.h"
 
-
 class ACharacter;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeCharacterValue, ACharacter*, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeCharacterValueCppDelegate, ACharacter*);
 
 /**
  * 
@@ -24,8 +24,12 @@ class REACTIVELIBRARY_API UReactivePropertyCharacter : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeCharacterValue OnValueChanged;
+	FOnChangeCharacterValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeCharacterValue OnValueChangedEvent;
 	
 private:
 
@@ -35,10 +39,10 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	ACharacter* GetValue() const;
+	[[nodiscard]] ACharacter* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool SetValue(ACharacter* NewValue);
+	void SetValue(ACharacter* NewValue);
 };
 
 
@@ -52,8 +56,12 @@ class REACTIVELIBRARY_API UWeakReactivePropertyCharacter : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeCharacterValue OnValueChanged;
+	FOnChangeCharacterValueCppDelegate OnValueChanged;
+	
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeCharacterValue OnValueChangedEvent;
 	
 private:
 
@@ -63,11 +71,11 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	ACharacter* GetValue() const;
+	[[nodiscard]] ACharacter* GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool SetValue(ACharacter* NewValue);
+	void SetValue(ACharacter* NewValue);
 
 	UFUNCTION(BlueprintCallable, Category = "Weak Reactive Property")
-	bool IsValidPtr() const;
+	[[nodiscard]] bool IsValidPtr() const;
 };

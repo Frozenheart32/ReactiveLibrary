@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
@@ -18,7 +18,11 @@ const TArray<FRotator>& UReactiveCollectionRotator::GetCollection() const
 void UReactiveCollectionRotator::SetCollection(TArray<FRotator> NewCollection)
 {
 	Collection = MoveTemp(NewCollection);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 const FRotator& UReactiveCollectionRotator::GetElementByIndex(int32 Index) const
@@ -30,7 +34,11 @@ const FRotator& UReactiveCollectionRotator::GetElementByIndex(int32 Index) const
 void UReactiveCollectionRotator::PushBack(const FRotator& NewElement)
 {
 	Collection.Push(NewElement);
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }
 
 bool UReactiveCollectionRotator::TryRemoveElementByIndex(int32 Index)
@@ -39,19 +47,24 @@ bool UReactiveCollectionRotator::TryRemoveElementByIndex(int32 Index)
 
 	const auto& Element = Collection[Index];
 	Collection.Remove(Element);
-	
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 	return true;
 }
 
 bool UReactiveCollectionRotator::TrySetValueByIndex(int32 Index, const FRotator& NewElement)
 {
 	if(CheckOutOfRange(Index)) return false;
-
-	const auto OldValue = Collection[Index];
-	Collection[Index] = NewElement;
 	
-	OnElementReplaced.Broadcast(Index, OldValue, NewElement);
+	Collection[Index] = NewElement;
+
+	if(OnElementReplaced.IsBound())
+		OnElementReplaced.Broadcast(Index, NewElement);
+
+	OnElementReplacedEvent.Broadcast(Index, NewElement);
 	return true;
 }
 
@@ -65,5 +78,9 @@ void UReactiveCollectionRotator::ClearCollection()
 	if(Collection.IsEmpty()) return;
 
 	Collection.Empty();
-	OnCollectionChanged.Broadcast(Collection);
+
+	if(OnCollectionChanged.IsBound())
+		OnCollectionChanged.Broadcast(Collection);
+
+	OnCollectionChangedEvent.Broadcast(Collection);
 }

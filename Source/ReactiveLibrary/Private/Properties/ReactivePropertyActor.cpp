@@ -1,29 +1,33 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
 
 
 #include "Properties/ReactivePropertyActor.h"
+#include "GameFramework/Actor.h"
 
 AActor* UReactivePropertyActor::GetValue() const
 {
 	return Value;
 }
 
-bool UReactivePropertyActor::SetValue(AActor* NewValue)
+void UReactivePropertyActor::SetValue(AActor* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(IsValid(Value))
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value);
-	return true;
+
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value);
+
+	OnValueChangedEvent.Broadcast(Value);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -35,19 +39,22 @@ AActor* UWeakReactivePropertyActor::GetValue() const
 	return Value.IsValid() ? Value.Get() : nullptr;
 }
 
-bool UWeakReactivePropertyActor::SetValue(AActor* NewValue)
+void UWeakReactivePropertyActor::SetValue(AActor* NewValue)
 {
-	if(!IsValid(NewValue)) return false;
+	if(!IsValid(NewValue)) return;
 	
 	if(Value.IsValid())
 	{
 		if(Value == NewValue)
-			return false;
+			return;
 	}
 	
 	Value = NewValue;
-	OnValueChanged.Broadcast(Value.Get());
-	return true;
+
+	if(OnValueChanged.IsBound())
+		OnValueChanged.Broadcast(Value.Get());
+
+	OnValueChangedEvent.Broadcast(Value.Get());
 }
 
 bool UWeakReactivePropertyActor::IsValidPtr() const

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2025 Alexsander Khrapin
+* Copyright (c) 2026 Alexsander Khrapin
 * Licensed under the MIT License. See LICENSE in the project root for license information.
 */
  
@@ -10,6 +10,7 @@
 #include "ReactivePropertyBool.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeBoolValue, bool, NewValue);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeBoolValueCppDelegate, bool);
 
 /**
  * 
@@ -21,8 +22,12 @@ class REACTIVELIBRARY_API UReactivePropertyBool : public UObject
 
 public:
 
-	UPROPERTY(BlueprintAssignable, Category = "Reactive Property")
-	FOnChangeBoolValue OnValueChanged;
+	FOnChangeBoolValueCppDelegate OnValueChanged;
+
+protected:
+
+	UPROPERTY(BlueprintAssignable, Category = "Reactive Property", DisplayName = "OnValueChanged")
+	FOnChangeBoolValue OnValueChangedEvent;
 	
 private:
 
@@ -32,7 +37,7 @@ private:
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
-	bool GetValue() const;
+	[[nodiscard]] bool GetValue() const;
 	
 	UFUNCTION(BlueprintCallable, Category = "Reactive Property")
 	void SetValue(bool NewValue);
